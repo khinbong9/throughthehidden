@@ -19,6 +19,10 @@ public class ClueTrackerRealtimeDB : MonoBehaviour
 
     private bool firebaseReady;
 
+    // Main-thread relay
+    private bool hasPendingTotal;
+    private int pendingTotal;
+
     private async void Awake()
     {
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
@@ -37,8 +41,17 @@ public class ClueTrackerRealtimeDB : MonoBehaviour
         dbRoot = FirebaseDatabase.DefaultInstance.RootReference;
         firebaseReady = true;
 
-        // If user already logged in (eg: auto session), start listening immediately
         TryStartListeningTotal();
+    }
+
+    private void Update()
+    {
+        // ✅ Unity main thread: safe to touch UI / invoke handlers here
+        if (hasPendingTotal)
+        {
+            hasPendingTotal = false;
+            OnTotalChanged?.Invoke(pendingTotal);
+        }
     }
 
     private void OnDestroy()
@@ -55,17 +68,15 @@ public class ClueTrackerRealtimeDB : MonoBehaviour
     private DatabaseReference UserCluePath(string uid) =>
         dbRoot.Child("users").Child(uid).Child("clue_found");
 
-    /// Call this after login success (recommended)
     public void NotifyUserLoggedIn()
     {
         TryStartListeningTotal();
     }
 
-    /// Call this after logout (optional)
     public void NotifyUserLoggedOut()
     {
         StopListeningTotal();
-        OnTotalChanged?.Invoke(0);
+        QueueTotalForMainThread(0);
     }
 
     private void TryStartListeningTotal()
@@ -73,9 +84,13 @@ public class ClueTrackerRealtimeDB : MonoBehaviour
         if (!firebaseReady) return;
 
         string uid = GetUserId();
-        if (string.IsNullOrEmpty(uid)) return;
+        if (string.IsNullOrEmpty(uid))
+        {
+            Debug.LogWarning("TryStartListeningTotal: No logged-in user yet.");
+            return;
+        }
 
-        StopListeningTotal(); // prevent duplicate listeners
+        StopListeningTotal();
 
         totalRef = UserCluePath(uid).Child("total");
 
@@ -88,22 +103,22 @@ public class ClueTrackerRealtimeDB : MonoBehaviour
             }
 
             int total = SnapshotToInt(args.Snapshot);
-            OnTotalChanged?.Invoke(total);
+            QueueTotalForMainThread(total);
         };
 
         totalRef.ValueChanged += totalHandler;
 
-        // Fetch once right away so UI shows current value immediately
+        // Fetch once immediately (also relay to main thread)
         _ = totalRef.GetValueAsync().ContinueWith(t =>
         {
             if (t.IsCompletedSuccessfully)
             {
                 int total = SnapshotToInt(t.Result);
-                OnTotalChanged?.Invoke(total);
+                QueueTotalForMainThread(total);
             }
             else
             {
-                OnTotalChanged?.Invoke(0);
+                QueueTotalForMainThread(0);
             }
         });
     }
@@ -117,13 +132,18 @@ public class ClueTrackerRealtimeDB : MonoBehaviour
         totalHandler = null;
     }
 
+    private void QueueTotalForMainThread(int total)
+    {
+        pendingTotal = total;
+        hasPendingTotal = true;
+    }
+
     private int SnapshotToInt(DataSnapshot snap)
     {
         if (snap == null || snap.Value == null) return 0;
 
         try
         {
-            // Realtime DB sometimes returns long/double
             if (snap.Value is long l) return (int)l;
             if (snap.Value is double d) return (int)d;
             return Convert.ToInt32(snap.Value);
@@ -134,8 +154,6 @@ public class ClueTrackerRealtimeDB : MonoBehaviour
         }
     }
 
-    /// Call this when clue is grabbed.
-    /// Returns true if a new clue was saved, false if it already existed or failed.
     public async Task<bool> RegisterClueAsync(string itemId, string itemName)
     {
         if (!firebaseReady)
@@ -157,7 +175,6 @@ public class ClueTrackerRealtimeDB : MonoBehaviour
 
         try
         {
-            // 1) Check if item already exists (avoid double counting)
             var snap = await itemNameRef.GetValueAsync();
             if (snap.Exists)
             {
@@ -165,10 +182,8 @@ public class ClueTrackerRealtimeDB : MonoBehaviour
                 return false;
             }
 
-            // 2) Save item name under itemId
             await itemNameRef.SetValueAsync(itemName);
 
-            // 3) Increment total safely using transaction
             await totalRefLocal.RunTransaction(mutableData =>
             {
                 long current = 0;
@@ -182,7 +197,7 @@ public class ClueTrackerRealtimeDB : MonoBehaviour
                 return TransactionResult.Success(mutableData);
             });
 
-            Debug.Log($"Saved clue: {itemId} ({itemName}) to Realtime DB");
+            Debug.Log($"Saved clue: {itemId} ({itemName})");
             return true;
         }
         catch (Exception e)

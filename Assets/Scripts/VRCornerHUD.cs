@@ -42,8 +42,10 @@ public class VRCornerHUD : MonoBehaviour
     }
 
     public void SetFound(int found)
-    {
-        currentFound = Mathf.Clamp(found, 0, totalClues);
-        if (clueText) clueText.text = $"{currentFound}/{totalClues}";
-    }
+{
+    Debug.Log("HUD SetFound called with: " + found);
+    currentFound = Mathf.Clamp(found, 0, totalClues);
+    if (clueText) clueText.text = $"Clues found : {currentFound}/{totalClues}";
+}
+
 }
