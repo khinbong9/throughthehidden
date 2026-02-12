@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+<<<<<<< Updated upstream
+guid: 71d3e1342319d03438089a3c8599486f
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - head: {fileID: 262071242513099428, guid: 3eff3f390b7c3a24786118970d68dd4a, type: 3}
+  - grab: {fileID: 6998834802386280732, guid: 437198f8c39d0424faad287d3081c012, type: 3}
+  - closedModel: {fileID: 7081723049445665624, guid: eeea06d5a69c1af4c8b9e29b3779f792, type: 3}
+  - openModel: {fileID: 5490871387301355042, guid: 1fe941f8151d6634bbc485cae04ad1ca, type: 3}
+  - clueCanvas: {instanceID: 0}
+  - clueCounterText: {instanceID: 0}
+  - popupTextObject: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+=======
+guid: 71d3e1342319d03438089a3c8599486f
+>>>>>>> Stashed changes

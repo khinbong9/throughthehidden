@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "211009045776",
+    "firebase_url": "https://lemonadepie-f2a68-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "lemonadepie-f2a68",
+    "storage_bucket": "lemonadepie-f2a68.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:211009045776:android:c7446133d097657768d195",
+        "android_client_info": {
+          "package_name": "com.np.lmnp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-VEszmdEc1y4NvBvZAyHumvAFTt53Fsw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

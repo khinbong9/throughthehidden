@@ -1,0 +1,73 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-6895178567123833013
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 10
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: water
+  m_Shader: {fileID: -6465566751694194690, guid: cf5833f98f4618f42bbed163ce1f76c6, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 2
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses:
+  - MOTIONVECTORS
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _buttom_strength: 13.87
+    - _erason: 5.02
+    - _metallic: 0
+    - _ripple_amount: -75.6
+    - _smoothness: 0
+    - _vertex_offset_amount: 0
+    - _voronoi_scale: -0.25
+    - _voronoi_speed: 6.6
+    m_Colors:
+    - _buttom_in: {r: -0.39, g: 1.08, b: 0, a: 0}
+    - _buttom_out: {r: 0.05, g: 3.83, b: 0, a: 0}
+    - _emission: {r: 0.05842829, g: 0.46303862, b: 0.9528302, a: 1}
+    - _remap_in: {r: 82.2, g: 7.96, b: 0, a: 0}
+    - _remap_out: {r: 0, g: 0, b: 0, a: 0}
+    - _ripple_colour: {r: 0.6839622, g: 0.9431958, b: 1, a: 1}
+    - _ripple_speed: {r: 4.23, g: 10.62, b: 0, a: 0}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
