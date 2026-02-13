@@ -369,7 +369,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88200c53ca6b74033905f18c94e781aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneToLoad: whiteboxing
+  sceneToLoad: khinbong
 --- !u!1 &183888770
 GameObject:
   m_ObjectHideFlags: 0
@@ -454,7 +454,9 @@ MonoBehaviour:
   usernameInput: {fileID: 1524590532}
   passwordInput: {fileID: 960494639}
   errorText: {fileID: 596458852}
-  sceneToLoad: whiteboxing
+  correctUsername: abcdef
+  correctPassword: 12345
+  sceneToLoad: khinbong
 --- !u!4 &215592716
 Transform:
   m_ObjectHideFlags: 0
